@@ -1,0 +1,116 @@
+.company-switcher {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.company-switcher-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+
+.switcher-icon {
+  font-size: 15px;
+}
+
+.company-switcher-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding: 2px 2px;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.company-switcher-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.company-switcher-list::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 4px;
+}
+
+.company-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.company-tab:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.company-tab:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.company-tab-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  transition: transform 0.2s ease;
+}
+
+.company-tab-active {
+  background: var(--tab-accent-soft, #e6f7fd);
+  border-color: var(--tab-accent, #00aeef);
+  color: var(--tab-accent-dark, #00395c);
+  font-weight: 750;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.company-tab-active .company-tab-mark {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .company-switcher {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .company-switcher-label {
+    font-size: 12px;
+  }
+
+  .company-tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
