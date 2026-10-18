@@ -8,6 +8,9 @@ interface SearchBarProps {
   onSearchChange: (query: string) => void;
   selectedCategory: AppCategory | 'all';
   onCategoryChange: (category: AppCategory | 'all') => void;
+  filterByRoleOnly: boolean;
+  onToggleFilterByRole: () => void;
+  roleLabel: string;
   totalResults: number;
 }
 
@@ -25,6 +28,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onSearchChange,
   selectedCategory,
   onCategoryChange,
+  filterByRoleOnly,
+  onToggleFilterByRole,
+  roleLabel,
   totalResults,
 }) => {
   return (
@@ -55,19 +61,34 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
       <div className="category-filter-bar" role="group" aria-label="Filter applications by category">
         {CATEGORIES.map((cat) => {
-          const isActive = selectedCategory === cat.id;
+          const isActive = selectedCategory === cat.id && !filterByRoleOnly;
           return (
             <button
               key={cat.id}
               type="button"
               className={`category-pill ${isActive ? 'category-pill-active' : ''}`}
               aria-pressed={isActive}
-              onClick={() => onCategoryChange(cat.id)}
+              onClick={() => {
+                if (filterByRoleOnly) onToggleFilterByRole();
+                onCategoryChange(cat.id);
+              }}
             >
               {cat.label}
             </button>
           );
         })}
+
+        {/* Seamless Role Shortcuts Filter Button */}
+        <button
+          type="button"
+          className={`category-pill role-filter-pill ${filterByRoleOnly ? 'category-pill-active' : ''}`}
+          aria-pressed={filterByRoleOnly}
+          onClick={onToggleFilterByRole}
+          title={`Filter tools specifically prioritized for ${roleLabel}`}
+        >
+          <Icon name="star" size={13} strokeWidth={2.5} />
+          <span>My Role Shortcuts</span>
+        </button>
 
         <div className="search-counter" aria-live="polite">
           <span className="counter-bullet" aria-hidden="true">•</span>

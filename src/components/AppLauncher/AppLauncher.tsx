@@ -7,12 +7,14 @@ interface AppLauncherProps {
   apps: AppItem[];
   searchQuery: string;
   onClearSearch: () => void;
+  roleShortcutIds?: string[];
 }
 
 export const AppLauncher: React.FC<AppLauncherProps> = ({
   apps,
   searchQuery,
   onClearSearch,
+  roleShortcutIds = [],
 }) => {
   if (apps.length === 0) {
     return (
@@ -39,37 +41,46 @@ export const AppLauncher: React.FC<AppLauncherProps> = ({
 
   return (
     <div className="app-launcher-grid" role="list" aria-label="Application launcher grid">
-      {apps.map((app) => (
-        <article key={app.id} className="app-card" role="listitem">
-          <div className="app-card-header">
-            <div className="app-card-icon" aria-hidden="true">
-              <Icon name={app.icon} size={20} strokeWidth={1.75} />
+      {apps.map((app) => {
+        const isPriority = roleShortcutIds.includes(app.id);
+
+        return (
+          <article key={app.id} className="app-card" role="listitem">
+            <div className="app-card-header">
+              <div className="app-card-icon" aria-hidden="true">
+                <Icon name={app.icon} size={20} strokeWidth={1.75} />
+              </div>
+              <div className="app-badges-group">
+                {isPriority && (
+                  <span className="app-badge app-badge-role">Priority</span>
+                )}
+                {app.badge && (
+                  <span className="app-badge">{app.badge}</span>
+                )}
+              </div>
             </div>
-            {app.badge && (
-              <span className="app-badge">{app.badge}</span>
-            )}
-          </div>
 
-          <div className="app-card-body">
-            <h3 className="app-card-name">{app.name}</h3>
-            <p className="app-card-desc">{app.description}</p>
-          </div>
+            <div className="app-card-body">
+              <h3 className="app-card-name">{app.name}</h3>
+              <p className="app-card-desc">{app.description}</p>
+            </div>
 
-          <div className="app-card-footer">
-            <span className="app-category-tag">{app.category}</span>
-            <a
-              href={app.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="app-launch-link"
-              aria-label={`Launch ${app.name} in new window`}
-            >
-              <span>Launch</span>
-              <Icon name="external-link" size={13} strokeWidth={2} />
-            </a>
-          </div>
-        </article>
-      ))}
+            <div className="app-card-footer">
+              <span className="app-category-tag">{app.category}</span>
+              <a
+                href={app.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="app-launch-link"
+                aria-label={`Launch ${app.name} in new window`}
+              >
+                <span>Launch</span>
+                <Icon name="external-link" size={13} strokeWidth={2} />
+              </a>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 };

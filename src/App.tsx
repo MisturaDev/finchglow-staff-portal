@@ -7,7 +7,6 @@ import { SearchBar } from './components/SearchBar/SearchBar'
 import { AppLauncher } from './components/AppLauncher/AppLauncher'
 import { NewsFeed } from './components/NewsFeed/NewsFeed'
 import { RoleSwitcher } from './components/RoleSwitcher/RoleSwitcher'
-import { RoleShortcuts } from './components/RoleShortcuts/RoleShortcuts'
 import './App.css'
 
 function App() {
@@ -126,45 +125,37 @@ function App() {
           />
         </header>
 
-        {/* Personal Welcome Hero */}
-        <section className="welcome">
-          <p className="eyebrow">
-            {activeCompany.id === 'all'
-              ? 'GROUP STAFF PORTAL'
-              : `${activeCompany.shortName.toUpperCase()} WORKSPACE`}
-          </p>
-          <h2>{greeting}, {currentEmployee.name.split(' ')[0]}</h2>
-          <p>
-            {activeCompany.id === 'all'
-              ? `Signed in as ${currentRole.label}. Everything you need to work across Finchglow Holdings, in one place.`
-              : `Showing dedicated applications, alerts, and operational updates for ${activeCompany.name}.`}
-          </p>
-        </section>
-
-        {/* Priority Fast-Track Shortcuts for Active Role */}
-        <RoleShortcuts
-          currentRole={currentRole}
-          apps={apps}
-          filterByRoleOnly={filterByRoleOnly}
-          onToggleFilterByRole={() => setFilterByRoleOnly((prev) => !prev)}
-        />
-
-        {/* Accessible Company Switcher */}
+        {/* Accessible Company Switcher (Top Workspace Selector) */}
         <CompanySwitcher
           companies={companies}
           selectedCompanyId={selectedCompanyId}
           onSelectCompany={setSelectedCompanyId}
         />
 
+        {/* Personal Welcome Hero */}
+        <section className="welcome">
+          <h2>{greeting}, {currentEmployee.name.split(' ')[0]}</h2>
+
+          <p>
+            {activeCompany.id === 'all'
+              ? 'Everything you need to work across Finchglow Holdings, in one place.'
+              : `Showing dedicated applications, alerts, and operational updates for ${activeCompany.name}.`}
+          </p>
+        </section>
+
         {/* Cross-Cutting Search & Filter */}
         <SearchBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          filterByRoleOnly={filterByRoleOnly}
+          onToggleFilterByRole={() => setFilterByRoleOnly((prev) => !prev)}
+          roleLabel={currentRole.label}
+          totalResults={filteredApps.length}
+        />
 
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        totalResults={filteredApps.length}
-      />
+
 
       {/* Loading Skeleton Simulation */}
       {isLoading ? (
@@ -194,6 +185,7 @@ function App() {
               apps={filteredApps}
               searchQuery={searchQuery}
               onClearSearch={handleResetFilters}
+              roleShortcutIds={currentRole.defaultShortcuts}
             />
           </section>
 

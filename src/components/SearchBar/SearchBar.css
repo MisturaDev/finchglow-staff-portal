@@ -105,6 +105,22 @@
   color: #FFFFFF;
 }
 
+.role-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+
+.role-filter-pill:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: var(--accent);
+}
+
+
 .search-counter {
   margin-left: auto;
   font-size: 12.5px;
