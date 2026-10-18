@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from '../common/Icon';
 import './NetworkStatus.css';
 
 interface NetworkStatusProps {
@@ -30,7 +31,8 @@ export const NetworkStatus: React.FC<NetworkStatusProps> = ({
           onClick={onToggleLoading}
           aria-pressed={isLoading}
         >
-          {isLoading ? '⏳ Loading State: ON' : 'Simulate Loading'}
+          <Icon name="refresh" size={13} strokeWidth={2} />
+          <span>{isLoading ? 'Loading Skeleton: Active' : 'Simulate Loading'}</span>
         </button>
 
         <button
@@ -39,17 +41,22 @@ export const NetworkStatus: React.FC<NetworkStatusProps> = ({
           onClick={onToggleError}
           aria-pressed={hasError}
         >
-          {hasError ? '⚠️ API Failure: ON' : 'Simulate API Failure'}
+          <Icon name="alert-triangle" size={13} strokeWidth={2} />
+          <span>{hasError ? 'API Outage: Simulated' : 'Simulate API Failure'}</span>
         </button>
       </div>
 
       {hasError && (
         <div className="api-error-banner" role="alert">
-          <div className="api-error-text">
-            <strong>Finchglow API Unreachable:</strong> Network gateway timed out. Displaying cached offline data.
+          <div className="api-error-body">
+            <Icon name="alert-triangle" size={16} strokeWidth={2} className="api-error-icon" />
+            <div className="api-error-text">
+              <strong>Finchglow API Gateway Unreachable:</strong> Network timeout detected. Displaying verified offline cache.
+            </div>
           </div>
           <button type="button" className="api-retry-btn" onClick={onRetry}>
-            Retry Connection
+            <Icon name="refresh" size={13} strokeWidth={2} />
+            <span>Retry Connection</span>
           </button>
         </div>
       )}

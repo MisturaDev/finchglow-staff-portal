@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AppCategory } from '../../types/portal';
+import { Icon } from '../common/Icon';
 import './SearchBar.css';
 
 interface SearchBarProps {
@@ -29,11 +30,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div className="search-filter-section" role="search" aria-label="Search applications and updates">
       <div className="search-input-wrapper">
-        <span className="search-icon" aria-hidden="true">🔍</span>
+        <span className="search-icon" aria-hidden="true">
+          <Icon name="search" size={17} strokeWidth={2} />
+        </span>
         <input
           type="search"
           className="search-input"
-          placeholder="Search tools, platforms, guides, or updates..."
+          placeholder="Search tools, platforms, guides, or operational updates..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           aria-label="Search across applications and announcements"
@@ -45,7 +48,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             onClick={() => onSearchChange('')}
             aria-label="Clear search input"
           >
-            ✕
+            <Icon name="close" size={13} strokeWidth={2.5} />
           </button>
         )}
       </div>
@@ -67,7 +70,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         })}
 
         <div className="search-counter" aria-live="polite">
-          {totalResults} {totalResults === 1 ? 'tool' : 'tools'} available
+          <span className="counter-bullet" aria-hidden="true">•</span>
+          <span>{totalResults} {totalResults === 1 ? 'tool' : 'tools'} available</span>
         </div>
       </div>
     </div>

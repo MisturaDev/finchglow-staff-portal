@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AppItem } from '../../types/portal';
+import { Icon } from '../common/Icon';
 import './AppLauncher.css';
 
 interface AppLauncherProps {
@@ -7,44 +8,6 @@ interface AppLauncherProps {
   searchQuery: string;
   onClearSearch: () => void;
 }
-
-// Icon helper mapping
-const getAppIcon = (iconName: string): string => {
-  switch (iconName) {
-    case 'globe':
-      return '🌐';
-    case 'message-square':
-      return '💬';
-    case 'layers':
-      return '⚡';
-    case 'briefcase':
-      return '💼';
-    case 'shield':
-      return '🛡️';
-    case 'shopping-cart':
-      return '🛒';
-    case 'award':
-      return '🎓';
-    case 'file-text':
-      return '📋';
-    case 'compass':
-      return '🧭';
-    case 'tool':
-      return '🔧';
-    case 'truck':
-      return '🚚';
-    case 'user-check':
-      return '👥';
-    case 'life-buoy':
-      return '🎧';
-    case 'credit-card':
-      return '💳';
-    case 'book-open':
-      return '📖';
-    default:
-      return '🚀';
-  }
-};
 
 export const AppLauncher: React.FC<AppLauncherProps> = ({
   apps,
@@ -54,11 +17,13 @@ export const AppLauncher: React.FC<AppLauncherProps> = ({
   if (apps.length === 0) {
     return (
       <div className="app-empty-state" role="status">
-        <div className="app-empty-icon" aria-hidden="true">🔎</div>
+        <div className="app-empty-icon" aria-hidden="true">
+          <Icon name="search" size={32} strokeWidth={1.5} />
+        </div>
         <h3 className="app-empty-title">No applications found</h3>
         <p className="app-empty-desc">
           {searchQuery
-            ? `We couldn't find any tools matching "${searchQuery}".`
+            ? `No workplace tools matching "${searchQuery}" were found in this directory.`
             : 'No tools match the selected category filter for this business.'}
         </p>
         <button
@@ -78,7 +43,7 @@ export const AppLauncher: React.FC<AppLauncherProps> = ({
         <article key={app.id} className="app-card" role="listitem">
           <div className="app-card-header">
             <div className="app-card-icon" aria-hidden="true">
-              {getAppIcon(app.icon)}
+              <Icon name={app.icon} size={20} strokeWidth={1.75} />
             </div>
             {app.badge && (
               <span className="app-badge">{app.badge}</span>
@@ -100,7 +65,7 @@ export const AppLauncher: React.FC<AppLauncherProps> = ({
               aria-label={`Launch ${app.name} in new window`}
             >
               <span>Launch</span>
-              <span aria-hidden="true">↗</span>
+              <Icon name="external-link" size={13} strokeWidth={2} />
             </a>
           </div>
         </article>

@@ -6,9 +6,10 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
-  margin-top: 20px;
-  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 4px;
 }
+
 
 .company-switcher-label {
   display: flex;

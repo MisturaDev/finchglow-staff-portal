@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Company } from '../../types/portal';
+import { Icon } from '../common/Icon';
 import './CompanySwitcher.css';
 
 interface CompanySwitcherProps {
@@ -19,7 +20,9 @@ export const CompanySwitcher: React.FC<CompanySwitcherProps> = ({
       aria-label="Select business subsidiary"
     >
       <div className="company-switcher-label">
-        <span className="switcher-icon" aria-hidden="true">🏢</span>
+        <span className="switcher-icon" aria-hidden="true">
+          <Icon name="building" size={15} strokeWidth={2} />
+        </span>
         <span>Business:</span>
       </div>
 

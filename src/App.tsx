@@ -6,15 +6,14 @@ import { CriticalAlert } from './components/CriticalAlert/CriticalAlert'
 import { SearchBar } from './components/SearchBar/SearchBar'
 import { AppLauncher } from './components/AppLauncher/AppLauncher'
 import { NewsFeed } from './components/NewsFeed/NewsFeed'
-import { NetworkStatus } from './components/NetworkStatus/NetworkStatus'
 import './App.css'
 
 function App() {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<AppCategory | 'all'>('all')
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [hasError, setHasError] = useState<boolean>(false)
+  const [isLoading] = useState<boolean>(false)
+
 
   const activeCompany =
     companies.find((c) => c.id === selectedCompanyId) || companies[0]
@@ -79,9 +78,15 @@ function App() {
   }
 
   return (
-    <main className="portal" style={themeStyles} id="portal-content">
-      {/* High-visibility Critical Outage Banner */}
-      <CriticalAlert alerts={alerts} />
+    <>
+      <a href="#portal-content" className="skip-link">
+        Skip to main content
+      </a>
+
+      <main className="portal" style={themeStyles} id="portal-content">
+        {/* High-visibility Critical Outage Banner */}
+        <CriticalAlert alerts={alerts} />
+
 
       <header className="portal-header">
         <div className="brand">
@@ -105,6 +110,21 @@ function App() {
         </div>
       </header>
 
+      {/* Personal Welcome Hero */}
+      <section className="welcome">
+        <p className="eyebrow">
+          {activeCompany.id === 'all'
+            ? 'GROUP STAFF PORTAL'
+            : `${activeCompany.shortName.toUpperCase()} WORKSPACE`}
+        </p>
+        <h2>{greeting}, Mistura</h2>
+        <p>
+          {activeCompany.id === 'all'
+            ? 'Everything you need to work across Finchglow Holdings, in one place.'
+            : `Showing dedicated applications, alerts, and operational updates for ${activeCompany.name}.`}
+        </p>
+      </section>
+
       {/* Accessible Company Switcher */}
       <CompanySwitcher
         companies={companies}
@@ -112,20 +132,6 @@ function App() {
         onSelectCompany={setSelectedCompanyId}
       />
 
-      {/* Welcome Hero */}
-      <section className="welcome">
-        <p className="eyebrow">
-          {activeCompany.id === 'all'
-            ? 'GROUP STAFF PORTAL'
-            : `${activeCompany.shortName.toUpperCase()} PORTAL`}
-        </p>
-        <h2>{greeting}, Mistura 👋</h2>
-        <p>
-          {activeCompany.id === 'all'
-            ? 'Everything you need to work across Finchglow Holdings, in one place.'
-            : `Showing dedicated workspace, tools, and updates for ${activeCompany.name}.`}
-        </p>
-      </section>
 
       {/* Cross-Cutting Search & Filter */}
       <SearchBar
@@ -186,21 +192,10 @@ function App() {
           </section>
         </>
       )}
-
-      {/* Network Resilience & Error Simulator Controls */}
-      <NetworkStatus
-        isLoading={isLoading}
-        onToggleLoading={() => setIsLoading((prev) => !prev)}
-        hasError={hasError}
-        onToggleError={() => setHasError((prev) => !prev)}
-        onRetry={() => {
-          setHasError(false)
-          setIsLoading(true)
-          setTimeout(() => setIsLoading(false), 600)
-        }}
-      />
     </main>
+    </>
   )
 }
+
 
 export default App

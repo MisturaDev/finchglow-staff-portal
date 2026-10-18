@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AlertItem, Company } from '../../types/portal';
+import { Icon } from '../common/Icon';
 import './NewsFeed.css';
 
 interface NewsFeedProps {
@@ -11,7 +12,6 @@ interface NewsFeedProps {
 export const NewsFeed: React.FC<NewsFeedProps> = ({
   alerts,
   companies,
-  selectedCompanyId,
 }) => {
   const getCompanyLabel = (companyId: string) => {
     if (companyId === 'all') {
@@ -30,6 +30,17 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({
       case 'info':
       default:
         return 'severity-badge-info';
+    }
+  };
+
+  const getSeverityIcon = (severity: string) => {
+    switch (severity) {
+      case 'critical':
+      case 'warning':
+        return <Icon name="alert-triangle" size={13} strokeWidth={2.2} />;
+      case 'info':
+      default:
+        return <Icon name="info" size={13} strokeWidth={2.2} />;
     }
   };
 
@@ -52,7 +63,8 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({
           <div className="news-item-top">
             <div className="news-item-badges">
               <span className={`severity-badge ${getSeverityBadgeClass(item.severity)}`}>
-                {item.severity.toUpperCase()}
+                {getSeverityIcon(item.severity)}
+                <span>{item.severity.toUpperCase()}</span>
               </span>
               <span className="news-scope-badge">
                 {getCompanyLabel(item.companyId)}
@@ -76,7 +88,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({
                 className="news-action-link"
               >
                 <span>{item.actionLabel}</span>
-                <span aria-hidden="true"> →</span>
+                <Icon name="external-link" size={12} strokeWidth={2} />
               </a>
             </div>
           )}

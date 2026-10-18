@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { AlertItem } from '../../types/portal';
+import { Icon } from '../common/Icon';
 import './CriticalAlert.css';
 
 interface CriticalAlertProps {
@@ -27,8 +28,8 @@ export const CriticalAlert: React.FC<CriticalAlertProps> = ({ alerts }) => {
     >
       <div className="critical-alert-content">
         <div className="critical-alert-badge">
-          <span className="critical-pulse" aria-hidden="true" />
-          <span>CRITICAL ALERT</span>
+          <Icon name="alert-triangle" size={14} strokeWidth={2.5} />
+          <span>CRITICAL OUTAGE</span>
         </div>
 
         <div className="critical-alert-body">
@@ -44,8 +45,8 @@ export const CriticalAlert: React.FC<CriticalAlertProps> = ({ alerts }) => {
               rel="noopener noreferrer"
               className="critical-btn critical-btn-primary"
             >
-              {primaryAlert.actionLabel || 'View Status'}
-              <span aria-hidden="true"> ↗</span>
+              <span>{primaryAlert.actionLabel || 'View Status'}</span>
+              <Icon name="external-link" size={12} strokeWidth={2.5} />
             </a>
           )}
           <button
