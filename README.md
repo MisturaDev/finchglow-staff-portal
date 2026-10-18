@@ -1,7 +1,7 @@
 
 # Finchglow Holdings Group Staff Portal
 
-> 🌐 **Live Demo:** [https://finchglow-staff-portal.vercel.app/](https://finchglow-staff-portal.vercel.app/)
+> **Live Demo:** [https://finchglow-staff-portal.vercel.app/](https://finchglow-staff-portal.vercel.app/)
 
 A responsive, multi-company staff portal designed for Finchglow Holdings. The application brings employee tools, operational alerts, company-specific branding, and role-based shortcuts into one unified workspace.
 
