@@ -1,0 +1,135 @@
+.news-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.news-item {
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.news-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transform: translateX(2px);
+}
+
+.news-item-critical {
+  border-left-color: #DC2626;
+  background: #FFFBFB;
+}
+
+.news-item-warning {
+  border-left-color: #D97706;
+  background: #FFFDF8;
+}
+
+.news-item-info {
+  border-left-color: #0284C7;
+  background: #F9FCFF;
+}
+
+.news-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.news-item-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.severity-badge {
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.8px;
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+
+.severity-badge-critical {
+  background: #DC2626;
+  color: #FFFFFF;
+}
+
+.severity-badge-warning {
+  background: #D97706;
+  color: #FFFFFF;
+}
+
+.severity-badge-info {
+  background: #0284C7;
+  color: #FFFFFF;
+}
+
+.news-scope-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  background: #F1F5F9;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+.news-timestamp {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.news-item-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+
+.news-item-message {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.news-item-action {
+  margin-top: 12px;
+}
+
+.news-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 750;
+  color: var(--accent-dark);
+  text-decoration: none;
+  transition: gap 0.2s ease;
+}
+
+.news-action-link:hover {
+  gap: 7px;
+  text-decoration: underline;
+}
+
+.news-action-link:focus-visible {
+  outline: 3px solid #2563EB;
+  outline-offset: 2px;
+}
+
+.news-empty-state {
+  padding: 24px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
