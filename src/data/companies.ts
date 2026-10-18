@@ -12,7 +12,7 @@ export const companies: Company[] = [
     id: 'all',
     name: 'Finchglow Holdings',
     shortName: 'Group',
-    tagline: 'Leading travel, hospitality & aviation conglomerate',
+    tagline: 'Leading travel, hospitality & aviation group',
     brandColor: '#00AEEF',
     brandColorDark: '#00395C',
     brandColorSoft: '#E6F7FD',

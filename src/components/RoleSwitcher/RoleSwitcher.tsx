@@ -72,7 +72,7 @@ export const RoleSwitcher: React.FC<RoleSwitcherProps> = ({
           aria-label="Select test persona for role-based view"
         >
           <div className="role-dropdown-header">
-            <span>SWITCH PERSONA / ROLE</span>
+            <span>SWITCH ROLE</span>
           </div>
 
           <div className="role-dropdown-list">
