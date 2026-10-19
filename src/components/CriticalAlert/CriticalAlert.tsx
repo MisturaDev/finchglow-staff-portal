@@ -10,7 +10,6 @@ interface CriticalAlertProps {
 export const CriticalAlert: React.FC<CriticalAlertProps> = ({ alerts }) => {
   const [isDismissed, setIsDismissed] = useState<boolean>(false);
 
-  // Filter for critical alerts only
   const criticalAlerts = alerts.filter((a) => a.severity === 'critical');
 
   if (criticalAlerts.length === 0 || isDismissed) {

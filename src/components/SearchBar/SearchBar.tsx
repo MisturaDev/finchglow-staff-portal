@@ -78,7 +78,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           );
         })}
 
-        {/* Seamless Role Shortcuts Filter Button */}
         <button
           type="button"
           className={`category-pill role-filter-pill ${filterByRoleOnly ? 'category-pill-active' : ''}`}

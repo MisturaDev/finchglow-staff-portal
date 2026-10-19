@@ -29,7 +29,6 @@ function App() {
     '--accent-soft': activeCompany.brandColorSoft,
   } as React.CSSProperties
 
-  // Time-aware greeting
   const greeting = useMemo(() => {
     const hour = new Date().getHours()
     if (hour < 12) return 'Good morning'
@@ -37,20 +36,16 @@ function App() {
     return 'Good evening'
   }, [])
 
-  // Filter apps by company, category, search query, and role
   const filteredApps = useMemo(() => {
     return apps.filter((app) => {
-      // 1. Company scope match:
       const companyMatch =
         selectedCompanyId === 'all'
           ? true
           : app.companyIds.includes(selectedCompanyId) || app.companyIds.includes('all')
 
-      // 2. Category match:
       const categoryMatch =
         selectedCategory === 'all' ? true : app.category === selectedCategory
 
-      // 3. Search query match:
       const query = searchQuery.trim().toLowerCase()
       const searchMatch =
         !query ||
@@ -58,7 +53,6 @@ function App() {
         app.description.toLowerCase().includes(query) ||
         app.category.toLowerCase().includes(query)
 
-      // 4. Role filter match (when role filter is enabled):
       const roleMatch = !filterByRoleOnly
         ? true
         : currentRole.defaultShortcuts.includes(app.id) ||
@@ -68,7 +62,6 @@ function App() {
     })
   }, [selectedCompanyId, selectedCategory, searchQuery, filterByRoleOnly, currentRole])
 
-  // Filter alerts by company (keeping group-wide visible) and search query
   const filteredAlerts = useMemo(() => {
     return alerts.filter((alert) => {
       const companyMatch =
@@ -99,7 +92,6 @@ function App() {
       </a>
 
       <main className="portal" style={themeStyles} id="portal-content">
-        {/* High-visibility Critical Outage Banner */}
         <CriticalAlert alerts={alerts} />
 
         <header className="portal-header">
@@ -113,7 +105,6 @@ function App() {
             </div>
           </div>
 
-          {/* Accessible Role Switcher */}
           <RoleSwitcher
             currentEmployee={currentEmployee}
             employees={demoPersonas}
@@ -125,14 +116,12 @@ function App() {
           />
         </header>
 
-        {/* Accessible Company Switcher (Top Workspace Selector) */}
         <CompanySwitcher
           companies={companies}
           selectedCompanyId={selectedCompanyId}
           onSelectCompany={setSelectedCompanyId}
         />
 
-        {/* Personal Welcome Hero */}
         <section className="welcome">
           <h2>{greeting}, {currentEmployee.name.split(' ')[0]}</h2>
 
@@ -143,7 +132,6 @@ function App() {
           </p>
         </section>
 
-        {/* Cross-Cutting Search & Filter */}
         <SearchBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -155,63 +143,57 @@ function App() {
           totalResults={filteredApps.length}
         />
 
-
-
-      {/* Loading Skeleton Simulation */}
-      {isLoading ? (
-        <section className="portal-section loading-skeleton" aria-busy="true">
-          <div className="skeleton-bar" style={{ width: '40%', height: '24px' }} />
-          <div className="skeleton-grid">
-            <div className="skeleton-card" />
-            <div className="skeleton-card" />
-            <div className="skeleton-card" />
-          </div>
-        </section>
-      ) : (
-        <>
-          {/* Applications Launcher Grid */}
-          <section className="portal-section" aria-labelledby="apps-heading">
-            <div className="section-heading">
-              <div>
-                <h2 id="apps-heading">Your applications</h2>
-                <p>
-                  Access your tools across{' '}
-                  <strong>{activeCompany.name}</strong> and group utilities.
-                </p>
-              </div>
+        {isLoading ? (
+          <section className="portal-section loading-skeleton" aria-busy="true">
+            <div className="skeleton-bar" style={{ width: '40%', height: '24px' }} />
+            <div className="skeleton-grid">
+              <div className="skeleton-card" />
+              <div className="skeleton-card" />
+              <div className="skeleton-card" />
             </div>
-
-            <AppLauncher
-              apps={filteredApps}
-              searchQuery={searchQuery}
-              onClearSearch={handleResetFilters}
-              roleShortcutIds={currentRole.defaultShortcuts}
-            />
           </section>
-
-          {/* Severity-Tiered News & Alerts Feed */}
-          <section className="portal-section" aria-labelledby="updates-heading">
-            <div className="section-heading">
-              <div>
-                <h2 id="updates-heading">Alerts and updates</h2>
-                <p>
-                  Operational advisories and news from {activeCompany.shortName} and group headquarters.
-                </p>
+        ) : (
+          <>
+            <section className="portal-section" aria-labelledby="apps-heading">
+              <div className="section-heading">
+                <div>
+                  <h2 id="apps-heading">Your applications</h2>
+                  <p>
+                    Access your tools across{' '}
+                    <strong>{activeCompany.name}</strong> and group utilities.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <NewsFeed
-              alerts={filteredAlerts}
-              companies={companies}
-              selectedCompanyId={selectedCompanyId}
-            />
-          </section>
-        </>
-      )}
-    </main>
+              <AppLauncher
+                apps={filteredApps}
+                searchQuery={searchQuery}
+                onClearSearch={handleResetFilters}
+                roleShortcutIds={currentRole.defaultShortcuts}
+              />
+            </section>
+
+            <section className="portal-section" aria-labelledby="updates-heading">
+              <div className="section-heading">
+                <div>
+                  <h2 id="updates-heading">Alerts and updates</h2>
+                  <p>
+                    Operational advisories and news from {activeCompany.shortName} and group headquarters.
+                  </p>
+                </div>
+              </div>
+
+              <NewsFeed
+                alerts={filteredAlerts}
+                companies={companies}
+                selectedCompanyId={selectedCompanyId}
+              />
+            </section>
+          </>
+        )}
+      </main>
     </>
   )
 }
 
-
-export default App
+export default App
