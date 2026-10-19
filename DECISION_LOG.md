@@ -2,41 +2,35 @@
 
 **Candidate:** Mistura Ishola  
 **Project:** Finchglow Holdings Group Staff Portal  
-**Date:** October 2026  
+**Date:** October 2026
 
----
+## Trade-off 1: CSS Custom Properties vs. a UI Component Library
 
-### Trade-Off 1: Native CSS Token Architecture vs. Component Library / Utility CSS
+**Context:** The portal needs to support distinct branding across six subsidiaries and the Group view, while remaining responsive, accessible, and lightweight.
 
-- **The Context:**  
-  The candidate brief demanded dynamic re-theming across 6 subsidiaries (plus Group view), high accessibility (WCAG 2.1 AA), and a strict production bundle target under 100 kB gzipped.
-- **Options Considered:**  
-  1. *UI Framework (MUI / Ant Design / Chakra):* Rapid component scaffolding, but bloats the bundle to 180+ kB and restricts custom brand styling.
-  2. *Tailwind CSS:* Great utility classes, but dynamically switching color palettes at runtime across 7 subsidiaries requires generating multi-tenant theme classes or CSS variable overrides anyway.
-  3. *Native CSS Custom Properties (Chosen):* A bespoke enterprise token system (`--accent`, `--accent-dark`, `--accent-soft`, `--surface`, `--border`).
-- **The Decision & Impact:**  
-  We chose **Native CSS Custom Properties**. By injecting dynamic CSS variables on `<main className="portal">`, subsidiary switching occurs in **0ms with zero layout recalculation**. Most importantly, the total production bundle weighs in at **81.6 kB gzipped**—nearly 20 kB below the target ceiling.
+**Options considered:**
+- **UI component library:** Libraries such as MUI offer reusable components but introduce additional dependencies and may require customisation to support the branding requirements.
+- **Tailwind CSS:** Provides a utility-first styling approach, but dynamic company branding would still require a strategy for managing theme values.
+- **Native CSS custom properties (chosen):** Provides reusable theme tokens that can be updated when the selected company changes.
 
----
+**Decision and impact:** I chose native CSS custom properties, using tokens such as `--accent`, `--accent-dark`, and `--accent-soft`. This keeps the branding logic separate from individual component styles and supports dynamic theme changes without duplicating entire dashboards. The reported production build contains approximately **81.60 kB of gzipped assets**, keeping the implementation lightweight.
 
-### Trade-Off 2: React Native State Primitives vs. Global State Library (Redux / Zustand)
+## Trade-off 2: React State vs. an External State Management Library
 
-- **The Context:**  
-  The portal manages subsidiary selection, employee persona, active search query, category filters, role-shortcut toggles, and alert dismissals.
-- **Options Considered:**  
-  1. *Redux Toolkit / Zustand:* Centralized store and action dispatchers.
-  2. *React Native State & Memoization (Chosen):* Clean state lifting in `App.tsx` utilizing `useState` and `useMemo`.
-- **The Decision & Impact:**  
-  We chose **native React state**. For a single-page operational launchpad, introducing external state libraries adds unnecessary abstraction layers, increases bundle size, and complicates code readability. By centralizing the filtering pipeline in a single `useMemo` block, all four filtering dimensions (Company, Category, Search Query, Role Shortcuts) execute in a predictable, unidirectional flow that is trivial to trace and explain in an interview.
+**Context:** The portal manages company selection, employee personas, search queries, category filters, role shortcuts, and alert interactions.
 
----
+**Options considered:**
+- **Redux Toolkit or Zustand:** Offers additional tools for managing shared state and more complex application workflows.
+- **React state and memoization (chosen):** Uses React's built-in state management and `useMemo` where derived values benefit from memoization.
 
-### Trade-Off 3: Strongly-Typed Data Layer vs. Mock Service Worker (MSW) Network Mocking
+**Decision and impact:** I chose React's built-in state primitives because the assessment's scope did not justify introducing another state management dependency. This keeps the implementation straightforward and makes the flow of state easier to follow. If the application grows to include more complex workflows or extensive shared state, I would reassess whether an external library would provide meaningful benefits.
 
-- **The Context:**  
-  The portal requires rich corporate data (GDS tools, ERP, CRM, facilities, alerts, and employee personas) with realistic empty, loading, and error states.
-- **Options Considered:**  
-  1. *Mock Service Worker (MSW) / Local Express Server:* Intercepts `fetch` requests with HTTP status codes and simulated latency.
-  2. *Decoupled TypeScript Configuration Modules (Chosen):* In-memory typed data structures in `src/data/` accompanied by client-side simulated skeleton loading states.
-- **The Decision & Impact:**  
-  We chose a **typed TypeScript mock layer**. Service workers introduce browser registration quirks, caching unpredictability, and friction for evaluators reviewing the code on different OS environments. Our approach delivers 100% deterministic unit tests in Vitest (<10ms execution), guarantees type safety across contracts, and allows adding a 7th subsidiary by appending just 4 lines of code in `companies.ts`.
+## Trade-off 3: Typed Mock Data vs. Network Mocking
+
+**Context:** The assessment requires realistic application, company, employee, and alert data, along with loading and error states, without requiring a real backend.
+
+**Options considered:**
+- **Mock Service Worker (MSW) or a local mock API:** Simulates network requests and responses, allowing more realistic API integration and failure testing.
+- **Typed TypeScript configuration modules (chosen):** Keeps mock data in dedicated modules and uses simulated interface states to demonstrate loading and error handling.
+
+**Decision and impact:** I chose typed mock data because it meets the assessment's requirements without adding network-mocking infrastructure that was unnecessary for the prototype's scope. The defined TypeScript contracts improve consistency across the data layer, while the modular configuration makes the portal easier to extend. A production implementation could replace the mock data with API services and introduce network-level testing as needed.
